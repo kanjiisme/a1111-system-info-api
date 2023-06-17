@@ -1,6 +1,7 @@
 import sys
 import gradio as gr
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from modules.api.models import *
 from modules.api import api
 import psutil
@@ -123,9 +124,13 @@ def get_crossattention():
         return 'unknown'
         
 def diffusion_worker_api(_ : gr.Blocks, app: FastAPI):
-
-    _premium = False
-
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Set the appropriate origins
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     @app.get("/worker/sysinfo")
     async def get_info():
         s = torch.cuda.mem_get_info()

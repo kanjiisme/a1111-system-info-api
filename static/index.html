@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON Information</h1>
+  <pre id="json-output">Loading...</pre>
+
+  <script>
+    // Fetch JSON data from the provided URL
+    fetch("https://ff0e-35-221-169-205.ngrok-free.app/worker/sysinfo")
+      .then(response => response.json())
+      .then(jsonData => {
+        // Convert JSON object to string and display in the pre element
+        document.getElementById("json-output").textContent = JSON.stringify(jsonData, null, 2);
+      })
+      .catch(error => {
+        console.error("Error fetching JSON:", error);
+        document.getElementById("json-output").textContent = "Error fetching JSON";
+      });
+  </script>
+</body>
+</html>
