@@ -13,6 +13,8 @@ import accelerate
 import os
 import transformers
 import uuid
+import requests
+
 try:
     import intel_extension_for_pytorch as ipex # pylint: disable=import-error, unused-import
 except:
@@ -131,6 +133,7 @@ def diffusion_worker_api(_ : gr.Blocks, app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
     @app.get("/worker/sysinfo")
     async def get_info():
         s = torch.cuda.mem_get_info()
@@ -163,7 +166,7 @@ def diffusion_worker_api(_ : gr.Blocks, app: FastAPI):
     @app.get("/worker/loras")
     async def get_loras_list():
         return get_loras()
-    
+
 try:
     script_callbacks.on_app_started(diffusion_worker_api)
 except Exception as e:
